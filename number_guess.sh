@@ -4,7 +4,7 @@ PSQL="psql --username=freecodecamp --dbname=postgres -t --no-align -c"
 echo "Enter your username:"
 read username
 number=$(( $RANDOM%1001 ))
-
+game_played=$($PSQL "SELECT users.game_played FROM users WHERE username='$username' ")
 function check(){
   if [[ $1 =~ [^0-9] ]]
   then
@@ -26,7 +26,7 @@ function check(){
 }
 
 
-if [[ -z $username ]]
+if [[ -z $game_played ]]
 then
  echo "Welcome, "$username"! It looks like this is your first time here."
  echo "Guess the secret number between 1 and 1000:"
@@ -41,9 +41,9 @@ then
   call=$?
  done
 else
- games_played=$($PSQL "SELECT game_played FROM games WHERE username="$query"")
- best_game=$($PSQL "SELECT MIN(best_game) FROM games WHERE username="$query"")
- echo "Welcome back, "$query"! You have played  "$games_played", and your best game took <best_game> guesses."
+ #games_played=$($PSQL "SELECT game_played FROM games WHERE username="$query"")
+ best_game=$($PSQL "SELECT users.best_game FROM users WHERE best_game='$query' ")
+ echo "Welcome back, "$query"! You have played  "$games_played", and your best game took "$best_game" guesses."
  read userguess
  check $userguess
  call=$?
