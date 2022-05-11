@@ -3,11 +3,11 @@ PSQL="psql --username=freecodecamp --dbname=number_guess -t --no-align -c"
 
 echo "Enter your username:"
 read username
-number=40 #$(( $RANDOM%1001 ))
+number=$(( $RANDOM%1001 ))
 
 
 game_id=$($PSQL "SELECT game_id FROM number_guess WHERE username='$username' ")
-echo $game_id
+#echo $game_id
 if [[ -z $game_id ]]
 then
  echo "Welcome, $username! It looks like this is your first time here."
